@@ -47,6 +47,7 @@ count_nulls = 0
 
 
 
+
 # add data to 2d array
 for i in range(2, ending_date_cell_column):
     for j in range(3, 33):

@@ -4,7 +4,6 @@ import numpy as np
 import re
 import datetime
 
-
 class Assignment:
 
     def __init__(self, _subject, _day, _month, _type):
@@ -20,7 +19,7 @@ class Assignment:
 
         month_number = datetime.datetime.strptime(_month, "%B").month
 
-        return datetime.datetime(year=current_year, month=month_number, day=_day)
+        return datetime.datetime(year=current_year, month=month_number, day=_day).strftime('%d/%m/%Y')
 
     def __str__(self):
         return f"Assignment: Subject='{self.subject}', Type='{self.type}', Date='{self.date}'"
@@ -72,7 +71,7 @@ while file_path == "":
     print("No file selected.\nRestarting...")
     # start up dialog
     file_path = filedialog.askopenfilename(
-        title="Open Text File",
+        title="Open target XLSX file",
         filetypes=(("Excel Files", "*.xlsx"),))
 
 wb = openpyxl.load_workbook(file_path)
@@ -127,3 +126,47 @@ for iterator in assignment_list:
     print(iterator.__str__())
 
 
+# Create a new workbook
+workbook = openpyxl.Workbook()
+
+# Select the active sheet (the default is "Sheet 0")
+sheet = workbook.active
+
+excel_headings = [
+    "Fach",
+    "Info",
+    "Datum",
+]
+excel_columns = [
+    "A",
+    "B",
+    "C",
+]
+
+# create headlines
+for i in range(0, len(excel_headings)):
+
+    sheet[excel_columns[i] + str(1)] = excel_headings[i]
+
+    for j in range(0, len(assignment_list)):
+        if i == 0:
+            sheet[excel_columns[i] + str(j+2)] = str(assignment_list[j].subject)
+        elif i == 1:
+            sheet[excel_columns[i] + str(j+2)] = str(assignment_list[j].type)
+        elif i == 2:
+            sheet[excel_columns[i] + str(j+2)] = str(assignment_list[j].date)
+
+save_file_path = ""
+
+while save_file_path == "":
+    print("No file selected.\nRestarting...")
+    # start up dialog
+    save_file_path = filedialog.askopenfilename(
+        title="Open XLSX-file you want to save the formatted data to",
+        filetypes=(("Excel Files", "*.xlsx"),))
+
+# Save the workbook to a file
+workbook.save(save_file_path)
+
+# Close the workbook (optional, but recommended)
+workbook.close()

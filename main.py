@@ -66,7 +66,7 @@ dictionary_keys = list(dictionary.keys())
 available_months = list()
 
 # TODO: Change later on to -> ""
-file_path = "test.xlsx"
+file_path = ""
 
 while file_path == "":
     print("No file selected.\nRestarting...")
@@ -89,14 +89,7 @@ date_row = 2
 # all list
 assignment_list = list()
 
-'''
-assignment = Assignment("Mathe", 3, "August", "Schularbeit")
-print(assignment.__str__())
-'''
-
-
-# add data to 2d array
-
+# loop through excel-sheet
 for i in range(2, ending_date_cell_column):
     for j in range(3, 33):
 
@@ -129,7 +122,7 @@ for i in range(2, ending_date_cell_column):
 
             assignment_list.append(Assignment(_subject, _day, _month, _type))
 
-
+# print the selected data
 for iterator in assignment_list:
     print(iterator.__str__())
 

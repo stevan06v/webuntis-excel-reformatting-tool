@@ -13,30 +13,55 @@ class Assignment:
         self.date = self.create_date_of_month_day(_day, _month)
 
     def create_date_of_month_day(self, _day, _month):
-        formatted_day = int(self.add_zero_to_single_digit_numbers(_day))
+        if _day is None or _month is None:
+            raise ValueError("Invalid day or month value")
+
         current_year = int(datetime.datetime.now().year)
 
-        return datetime.datetime(year=current_year, month=_month, day=formatted_day)
+        month_number = datetime.datetime.strptime(_month, "%B").month
 
-    def add_zero_to_single_digit_numbers(self, input_string):
-        if len(input_string) == 1:
-            return "0" + input_string
-        else:
-            return input_string
+        return datetime.datetime(year=current_year, month=month_number, day=_day)
+
+    def __str__(self):
+        return f"Assignment: Subject='{self.subject}', Type='{self.type}', Date='{self.date}'"
+
 
 # dictionary
 dictionary = {
-    "EBA E1": "Englisch",
+    "EBA_E1": "Englisch",
     "0WRRE": "Recht",
     "0WRWI": "Wirtschaft",
-    "0MEDTSM": "Mobile Computing",
+    "0MEDTMC": "Mobile Computing",
     "0D": "Deutsch",
+    "0AM": "Mathe",
     "1SEW": "Softwareentwicklung",
+    "0MEDTSM": "Social Media",
+    "1MEDT3D": "Medientechnik 3D",
+    "0GGPG": "Geschichte",
+    "0GGPGW": "Geografie",
+    "1ITP": "ITP",
+    "1MEDTFI": "Medientechnik Film",
+    "0NWP": "Physik",
     "1INSY": "Datenbanken",
 }
 
+german_to_english_month = {
+    "Januar": "January",
+    "Februar": "February",
+    "März": "March",
+    "April": "April",
+    "Mai": "May",
+    "Juni": "June",
+    "Juli": "July",
+    "August": "August",
+    "September": "September",
+    "Oktober": "October",
+    "November": "November",
+    "Dezember": "December"
+}
+
 # get all dictionary keys
-dictionary_key = list(dictionary.keys())
+dictionary_keys = list(dictionary.keys())
 
 available_months = list()
 
@@ -62,16 +87,50 @@ ending_date_cell_column = 11
 date_row = 2
 
 # all list
-assignment_list = set()
+assignment_list = list()
+
+'''
+assignment = Assignment("Mathe", 3, "August", "Schularbeit")
+print(assignment.__str__())
+'''
+
 
 # add data to 2d array
+
 for i in range(2, ending_date_cell_column):
     for j in range(3, 33):
-        if ws.cell(row=j, column=i).value is not None:
-            _day = ""
-            _month = ws.cell(row=j, column=i).value
-            _subject = ""
+
+        # performance fix
+        current_cell_value = ws.cell(row=j, column=i).value
+
+        if current_cell_value is not None:
+
+            # init
             _type = ""
-            assignment_list.add(Assignment(_subject, _day, _month, _type))
+            _subject = ""
+
+            month_range = j - 2
+            day_range = i - 1
+
+            _day = ws.cell(row=j, column=(i-day_range)).value
+            _month = german_to_english_month.get(ws.cell(row=(j - month_range), column=i).value, None)
+
+            # get type of assignment out of list
+            for iterator in dictionary_keys:
+                if iterator in current_cell_value:
+                    _subject = dictionary[iterator]
+                    break
+
+            # get assignment-type
+            if "Test" in current_cell_value:
+                _type = "Test"
+            else:
+                _type = "Schularbeit"
+
+            assignment_list.append(Assignment(_subject, _day, _month, _type))
+
+
+for iterator in assignment_list:
+    print(iterator.__str__())
 
 

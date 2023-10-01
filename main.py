@@ -163,7 +163,7 @@ while save_file_path == "":
     # start up dialog
     save_file_path = filedialog.askopenfilename(
         title="Open XLSX-file you want to save the formatted data to",
-        filetypes=(("Excel Files", "*.xlsx"),))
+        filetypes=(("Excel Files", "*.xlsx"), ))
 
 # Save the workbook to a file
 workbook.save(save_file_path)

@@ -56,7 +56,7 @@ This tool is designed to transform Excel files into a more readable format, with
 ** `pip install numpy`
 ** `pip install openpyxl`
 * Run the script
-** `python main.py`
+** `python webuntis-reformatting-tool.py`
 * Select the WebUntis-calender file
 * Select the previously created output-XLSX-file
 
@@ -64,7 +64,7 @@ This tool is designed to transform Excel files into a more readable format, with
 
 * Download your WebUntis-list
 * Create a output-xlsx-file
-* Start the main.exe file
+* Start the webuntis-reformatting-tool.py.exe file
 * Select the WebUntis-calender file
 * Select the previously created output-XLSX-file
 

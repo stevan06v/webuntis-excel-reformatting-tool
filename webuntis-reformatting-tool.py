@@ -3,6 +3,8 @@ import openpyxl
 import numpy as np
 import re
 import datetime
+import os
+import pandas as pd
 
 class Assignment:
 
@@ -67,30 +69,62 @@ available_months = list()
 # TODO: Change later on to -> ""
 file_path = ""
 
+xlsx_file_path = ''
+
+wb = None
+
+is_converted = False
+
 while file_path == "":
     print("No file selected.\nRestarting...")
     # start up dialog
     file_path = filedialog.askopenfilename(
         title="Open target XLSX file",
-        filetypes=(("Excel Files", "*.xlsx"),))
+        filetypes=(("Excel Files", "*.xlsx"), ("Excel Files", "*.xls")))
 
-wb = openpyxl.load_workbook(file_path)
+    if ".xls" in file_path:
+        print("XLS file selected...")
+        # Read the XLS file using pandas
+        xls_data = pd.read_excel(file_path)
+        # Save the data to an XLSX file
 
-print("You have successfully selected: " + file_path)
+        directory_path = os.path.dirname(file_path)
+
+        xlsx_file_path = directory_path + "/temp-webuntis-reformatting-tool-file" + ".xlsx"
+
+        # write data from xls -> xlsx file
+        xls_data.to_excel(xlsx_file_path, index=False)
+
+        # open newly created xlsx-file
+        wb = openpyxl.load_workbook(xlsx_file_path)
+
+        print(f'File "{file_path}" has been converted to "{xlsx_file_path}" successfully.')
+        is_converted = True
+    else:
+        wb = openpyxl.load_workbook(file_path)
+        is_converted = False
+
 
 ws = wb['Sheet1']
 
 # final values
-starting_date_cell_column = 2
-ending_date_cell_column = 11
-date_row = 2
+starting_x_cell = 2
+ending_x_cell = 11
+starting_y_cell = 3
+ending_y_cell = 33
+
+
+if is_converted:
+    starting_y_cell = 4
+    ending_y_cell = 34
+
 
 # all list
 assignment_list = list()
 
 # loop through excel-sheet
-for i in range(2, ending_date_cell_column):
-    for j in range(3, 33):
+for i in range(starting_x_cell, ending_x_cell):
+    for j in range(starting_y_cell, ending_y_cell):
 
         # performance fix
         current_cell_value = ws.cell(row=j, column=i).value
@@ -103,6 +137,9 @@ for i in range(2, ending_date_cell_column):
 
             month_range = j - 2
             day_range = i - 1
+
+            if is_converted is True:
+                month_range = j - 3
 
             _day = ws.cell(row=j, column=(i-day_range)).value
             _month = german_to_english_month.get(ws.cell(row=(j - month_range), column=i).value, None)
@@ -167,6 +204,9 @@ while save_file_path == "":
 
 # Save the workbook to a file
 workbook.save(save_file_path)
+
+if is_converted is True:
+    os.remove(xlsx_file_path)
 
 # Close the workbook (optional, but recommended)
 workbook.close()

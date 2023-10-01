@@ -54,6 +54,7 @@ This tool is designed to transform Excel files into a more readable format, with
 * Install the following libraries:
 ** `pip install tk`
 ** `pip install numpy`
+** `pip install pandas`
 ** `pip install openpyxl`
 * Run the script
 ** `python webuntis-reformatting-tool.py`

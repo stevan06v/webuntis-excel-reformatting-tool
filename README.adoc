@@ -44,3 +44,25 @@ This tool is designed to transform Excel files into a more readable format, with
 | Deutsch | Schularbeit | 24/11/2023
 | Wirtschaft | Test | 28/11/2023
 |===
+
+== How to run
+
+=== Running manually
+* Download your WebUntis-XLSX -> if necessary convert the download to XLSX
+* Create a output-xlsx-file
+* Install the following libraries:
+** `pip install tk`
+** `pip install numpy`
+** `pip install openpyxl`
+* Run the script
+** `python main.py`
+* Select the WebUntis-calender file
+* Select the previously created output-XLSX-file
+
+=== Running automatically (.exe-file)
+
+* Download your WebUntis-list
+* Create a output-xlsx-file
+* Start the main.exe file
+* Select the WebUntis-calender file
+* Select the previously created output-XLSX-file

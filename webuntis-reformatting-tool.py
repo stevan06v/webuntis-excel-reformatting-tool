@@ -74,7 +74,7 @@ xlsx_file_path = ""
 
 wb = None
 
-is_converted = False
+is_converted = None
 
 while file_path == "":
     print("No file selected.\nRestarting...")
@@ -83,7 +83,7 @@ while file_path == "":
         title="Open target XLSX file",
         filetypes=(("Excel Files", "*.xlsx"), ("Excel Files", "*.xls")))
 
-    if ".xls" in file_path:
+    if ".xlsx" not in file_path:
         print("XLS file selected...")
         # Read the XLS file using pandas
         xls_data = pd.read_excel(file_path)
@@ -101,21 +101,21 @@ while file_path == "":
 
         print(f'File "{file_path}" has been converted to "{xlsx_file_path}" successfully.')
         is_converted = True
-    else:
+    elif ".xls" in file_path:
         wb = openpyxl.load_workbook(file_path)
         is_converted = False
-
 
 ws = wb['Sheet1']
 
 # final values
 starting_x_cell = 2
 ending_x_cell = 11
+
 starting_y_cell = 3
 ending_y_cell = 33
 
 
-if is_converted:
+if is_converted is True:
     starting_y_cell = 4
     ending_y_cell = 34
 
@@ -136,11 +136,12 @@ for i in range(starting_x_cell, ending_x_cell):
             _type = ""
             _subject = ""
 
-            month_range = j - 2
+            month_range = j - 3
             day_range = i - 1
 
-            if is_converted is True:
-                month_range = j - 3
+            if is_converted is False:
+                month_range = j - 2
+                print("Month range (converted): " + str(j - month_range))
 
             _day = ws.cell(row=j, column=(i-day_range)).value
             _month = german_to_english_month.get(ws.cell(row=(j - month_range), column=i).value, None)

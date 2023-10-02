@@ -70,7 +70,7 @@ available_months = list()
 # TODO: Change later on to -> ""
 file_path = ""
 
-xlsx_file_path = ''
+xlsx_file_path = ""
 
 wb = None
 
@@ -194,17 +194,20 @@ for i in range(0, len(excel_headings)):
         elif i == 2:
             sheet[excel_columns[i] + str(j+2)] = str(assignment_list[j].date)
 
-save_file_path = ""
 
-while save_file_path == "":
-    print("No file selected.\nRestarting...")
-    # start up dialog
-    save_file_path = filedialog.askopenfilename(
-        title="Open XLSX-file you want to save the formatted data to",
-        filetypes=(("Excel Files", "*.xlsx"), ))
+save_directory_path = filedialog.asksaveasfilename(
+    title="Select file destination",
+    filetypes=(("Excel Files", "*.xlsx"),),
+)
+
+print(save_directory_path)
+
+if ".xlsx" not in save_directory_path:
+    save_directory_path = save_directory_path + ".xlsx"
+
 
 # Save the workbook to a file
-workbook.save(save_file_path)
+workbook.save(save_directory_path)
 
 if is_converted is True:
     os.remove(xlsx_file_path)

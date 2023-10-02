@@ -6,6 +6,7 @@ import datetime
 import os
 import pandas as pd
 
+
 class Assignment:
 
     def __init__(self, _subject, _day, _month, _type):

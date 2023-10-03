@@ -74,6 +74,7 @@ This tool is designed to transform Excel files into a more readable format, with
 
 === Create an .exe-file manually
 
+* Follow the manual-installation guideline
 * Install:
 ** `pip install pyinstaller`
 * Build exe file:

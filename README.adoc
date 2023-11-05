@@ -59,6 +59,7 @@ This tool is designed to transform Excel files into a more readable format, with
 ** `pip install pandas`
 ** `pip install openpyxl`
 ** `pip install xbrl`
+** `pip install xlrd`
 * Run the script
 ** `python webuntis-reformatting-tool.py`
 * Select the WebUntis-calender file

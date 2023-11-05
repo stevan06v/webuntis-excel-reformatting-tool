@@ -65,10 +65,10 @@ This tool is designed to transform Excel files into a more readable format, with
 === Running automatically (.exe-file)
 
 * Download your WebUntis-list
-* Create a output-xlsx-file
 * Start the webuntis-reformatting-tool.py.exe file
-* Select the WebUntis-calender file
-* Select the previously created output-XLSX-file
+* Select the WebUntis-list file
+* Select a location for the output-file
+* Tada! Have fun with your formatted data
 
 === Create an .exe-file manually
 

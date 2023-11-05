@@ -50,9 +50,6 @@ This tool is designed to transform Excel files into a more readable format, with
 == How to run
 
 === Running manually
-
-* Download your WebUntis-XLSX -> if necessary convert the download to XLSX
-* Create a output-xlsx-file
 * Install the following libraries:
 ** `pip install tk`
 ** `pip install numpy`
